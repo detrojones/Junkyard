@@ -1,0 +1,24 @@
+JtagUtility Instructions:
+
+If your modem is currently running infinite firmware it is recommended to restore it to stock, like it was out of the box.
+To do this you restore your 2MB backup that i hope you made before flashing infinite.
+The commands are as follows:
+  detect
+  ldram 9fc00000
+  (A File Open dialog will appear, find your 2MB backup file and click open)
+  program 9fc00000 200000
+
+It is recommended you make a backup before flashing haxorware (or any other hacked firmware) onto your modem.
+To create a 2MB backup with JtagUtility, enter the following commands:
+  detect
+  getram 9fc00000 200000
+  save 9fc00000 200000
+  (A save as dialog will appear, choose where to save your 2MB backup)
+
+To program haxorware to your modem using JtagUtility, issue the following commands:
+  detect
+  ldram 9fc10000
+  (A File Open dialog will appear, find haxorware11rev30.bin and click open)
+  program 9fc10000 130000
+
+After the flashing is complete, reboot your modem and enjoy Haxorware

@@ -1,0 +1,341 @@
+// ============================================================================
+//  USB EJTAG definition file
+//  Mar 20, 2007 Add ST20 support
+//  Feb 14, 2007 renamed SB5120revA to SB5120MX (MX Tsop) - bbb
+                 renamed SB5120rev2 to SB5120TE (Intel Tsop) - bbb
+//  Feb 13, 2007 renamed and fixed SB5120 to SB5120revA, added SB5120revB - bbb
+//               renamed sb5100 to sb510x (supports both 5100 and 5101) - bbb
+//               renamed sb4200 to sb4x00 (supports both 4100 and 4200) - bbb
+//  Feb 12, 2007 added SB4200, IRD301-010 profiles
+//  Oct 25, 2006 add SB5120 section
+//  Oct 24, 2006 add DCT2500 init strings
+// ============================================================================
+// Parts def
+MANUFACTURERS:
+0x007       TI
+0x009       Intel
+0x015       Philips Semi. (Signetics)
+0x01f       Atmel
+0x034       Cypress
+0x035       DEC
+0x049       Xilinx
+0x06e       Altera
+0x0bf       Broadcom
+0x150       Broadcom    # or "Sibyte, Incorporated" ?
+0x036       LSI
+0xE         Motorola
+0x20		STi
+Broadcom:
+0x1250      BCM1250
+0x3310      BCM3310
+0x5421      BCM5421S
+0x3345      BCM3345
+0x3348      BCM3348
+0x3349      BCM3349
+0x3350      BCM3350
+0x3352      BCM3352
+0x5352      BCM5352
+0x7115      BCM7115
+0x7038		BCM7038
+LSI:
+0x4000      SC2000
+Motorola:
+0x1c55      17500QK
+TI:
+0x0001      TNETC4401
+STi:
+0xD4C9		STi5500
+0xD405      STi5518
+0xd4cb      STi5505
+0xd502		STi5518
+0xd402      STi5508
+0xd4cd		STi5510
+0xD41D		STi5516
+0xD41F		STi5517
+0x5193		ST20-TP2
+0x5194		ST20-TP3
+0x5198		ST20-TP4
+0x5196		ST20-GP6
+
+TargetTest:
+Test:
+Name=DCT2500
+DLL=DCTTest.dll
+Memory=Ram,0,0x80000000,0x1000000
+Memory=NVRAM,0,0x98000000,0x40000
+Memory=boot,1,0x90000000,0x20000
+Memory=plat,1,0x90020000,0x160000
+Memory=app1,1,0x90180000,0x80000
+Memory=app2,1,0x90200000,0x20000
+Memory=app3,1,0x90220000,0x20000
+Memory=app4,1,0x90240000,0x20000
+Memory=rsvd,1,0x90260000,0x1a0000
+Programram=0x80200000
+Protocol=EJTAG
+Init=0xfffe072c,0
+Init=0xfffe7000,0x1000000e
+Init=0xfffe7004,0x02000011
+Init=0xfffe7008,0x1c000000
+Init=0xfffe700c,0x02000011
+Init=0xfffe7018,0x18000005
+Init=0xfffe701c,0x02000019
+Init=0xfffe7020,0x18000005
+Init=0xfffe7024,0x02000015
+Endian=Big
+IRLength=5
+
+Test:
+Name=DCT700
+DLL=DCTTest.dll
+Memory=Ram,0,0x80000000,0x1000000
+Memory=NVRAM,0,0x98000000,0x40000
+Memory=boot,1,0x90000000,0x20000
+Memory=plat,1,0x90020000,0x160000
+Memory=app1,1,0x90180000,0x80000
+Memory=app2,1,0x90200000,0x20000
+Memory=app3,1,0x90220000,0x20000
+Memory=app4,1,0x90240000,0x20000
+Memory=rsvd,1,0x90260000,0x1a0000
+Programram=0x80100000
+Init=0xba000078,0x1000AF49
+Init=0xba00007C,0x1C00AF49
+Endian=Big
+IRLength=5
+Protocol=EJTAG
+DMA=No
+ProbTrap=1
+
+Test:
+Name=SB5100
+DLL=SB5100.dll
+Memory=Ram,0,0x80000000,0x800000
+// Boot loader
+Memory=Boot,1,0x9fc00000,0x8000
+// configuration
+Memory=cfg,1,0x9fc08000,0x8000
+// first copy of firmware
+Memory=Image0,1,0x9fc10000,0xf0000
+// second copy of firmware
+Memory=Image1,1,0x9fd00000,0xf0000
+// log data
+Memory=log,1,0x9fdf0000,0x10000
+Programram=0x80400000
+// watch dog
+Init=0xfffe0224,0
+// initialize chip set
+Init=0xfffe2300,0x1a
+Init=0xfffe2304,0
+Init=0xfffe2308,0x8040
+Init=0xfffe230C,3
+Init=0xfffe2310,0x4824
+Endian=Big
+IRLength=5
+Protocol=EJTAG
+DMA=Yes
+ProbTrap=1
+
+Test:
+Name=SB5101
+DLL=SB5100.dll
+Memory=Ram,0,0x80000000,0x800000
+// Boot loader
+Memory=Boot,1,0x9fc00000,0x8000
+// permanent nonvol
+Memory=Perm,1,0x9fc08000,0x8000
+// haxorware firmware image
+Memory=Firmware,1,0x9FC10000,0x130000
+// filesystem
+Memory=FileSystem,1,0x9FD40000,0xB0000
+// dynamic nonvol
+Memory=Dyn,1,0x9fdf0000,0x10000
+Programram=0x80400000
+// watch dog
+Init=0xfffe0224,0
+// initialize chip set
+Init=0xfffe2300,0x1a
+Init=0xfffe2304,0
+Init=0xfffe2308,0x8040
+Init=0xfffe230C,3
+Init=0xfffe2310,0x4824
+Endian=Big
+IRLength=5
+Protocol=EJTAG
+DMA=Yes
+ProbTrap=1
+
+Test:
+Name=DVI3000
+DLL=dvitest.dll
+Memory=Ram,0,0x80000000,0x1000000
+Memory=Code,1,0x9FC00000,0x400000,0x20000
+Memory=NVRAM,0,0x1F000000,0x40000
+Memory=Sys,0,0xFFFE0000,0x8000
+Programram=0x80100000
+Endian=Little
+IRLength=5
+//Init=0xfffe072c,0
+Protocol=EJTAG
+DMA=Yes
+ProbTrap=1
+
+Test:
+Name=DP301-010
+Memory=Ram,0,0x80000000,800000
+Memory=U23,1,0x9fc00000,0x200000
+Memory=U22,1,0x9fe00000,0x1f0000
+Memory=Eeprom,2,0,0x800
+Programram=0x80020000
+EepomRegAddr=0xBE250000
+Endian=Little
+IRLength=5
+Protocol=EJTAG
+DMA=Yes
+ProbTrap=0
+
+Test:
+Name=SB5120MX
+DLL=sb5120.dll
+IRLength=5
+Endian=Big
+Memory=Ram,0,0x94000000,800000
+Memory=Boot,1,0x90000000,0x10000
+Memory=CmApp0,1,0x90010000,0xf0000
+Memory=CmApp1,1,0x90100000,0xf0000
+//Memory=DSPower,1,0x901f0000,0x4000
+Memory=Cert,1,0x901f0000,0x8000
+Memory=NVRAM0,1,0x901f8000,0x2000
+Memory=Evlog0,1,0x901fa000,0x2000
+Memory=Evlog1,1,0x901fc000,0x4000
+//Memory=NVRAM1,1,0x901fe000,0x2000
+Programram=0x94040000
+Protocol=EJTAG
+DMA=No
+ProbTrap=1
+
+Test:
+Name=SB5120TE
+//DLL=sb5120.dll
+IRLength=5
+Endian=Big
+Memory=Ram,0,0x94000000,800000
+// boot loader
+Memory=Boot,1,0x90000000,0x10000
+// first firmware image
+Memory=CmApp0,1,0x90010000,0xf0000
+// second firmware (backup)
+Memory=CmApp1,1,0x90100000,0xf0000
+// Unknown
+Memory=DSPower,1,0x901f0000,0x4000
+// Certificate and Unknown Reserved
+Memory=Cert,1,0x901f4000,0x4000
+// not allowed Memory=Cert,1,0x901f4000,0x1800
+// Unknown
+// not allowed Memory=Reserved,1,0x901f5800,0x2800
+// first log
+Memory=EvLog0,1,0x901f8000,0x2000
+// second log (backup)
+Memory=EvLog1,1,0x901fa000,0x2000
+// first config
+Memory=NVRAM0,1,0x901fc000,0x2000
+// second config (backup)
+Memory=NVRAM1,1,0x901fe000,0x2000
+Programram=0x94040000
+Protocol=EJTAG
+DMA=No
+ProbTrap=1
+
+Test:
+Name=SGB900
+DLL=sgb900.dll
+Memory=Ram,0,0x80000000,0x1000000
+// Boot loader
+Memory=boot,1,0x9fc00000,0x20000
+Memory=App,1,0x9fc20000,0x3c0000
+Memory=cfg,1,0x9fFe0000,0x20000
+Programram=0x80400000
+// watch dog
+Init=0xfffe0224,0
+Endian=Big
+IRLength=5
+Protocol=EJTAG
+DMA=Yes
+ProbTrap=1
+
+Test:
+Name=SB4X00
+Endian=Big
+Memory=Ram,0,0x80000000,800000
+Memory=Firm,1,0x9fC00000,110000
+Memory=Cfg0,1,0x9fD10000,10000
+Memory=Firm1,1,0x9fD20000,E0000
+Programram=0x80400000
+Endian=Big
+IRLength=5
+Protocol=EJTAG
+DMA=Yes
+ProbTrap=1
+DebugMem=0
+// watch dog
+Init=0xfffe0224,0
+
+Test:
+Name=IRD2700
+IRLength=5
+Memory=sys,0,0x2000,0x2000
+Memory=ram,0,0x80000000,0x800000
+Memory=firm,1,0x7ff80000,0x80000
+Memory=Eeprom,2,0,0x800
+Programram=0x80000200
+DCUReg=0x3000
+Protocol=DCU
+Eepromprot=1
+Endian=Little
+Init=0x2000,0xB291
+Init=0x2010,0xB6D1
+Init=0x2020,0xB291
+Init=0x2030,0xB6D1
+
+Test:
+Name=DP301-013.1
+IRLength=5
+Memory=sys,0,0x2000,0x2000
+Memory=ram,0,0x80000000,0x800000
+Memory=firm,1,0x7FC00000,0x400000
+Memory=Eeprom,2,0,0x2000
+Programram=0x80000200
+DCUReg=0x3000
+Protocol=DCU
+Eepromprot=4
+Endian=Little
+Init=0x2000,0xB291
+Init=0x2010,0xB6D1
+Init=0x2020,0xB291
+Init=0x2030,0xB6D1
+
+Test:
+Name=DCT6412
+DLL=DCT6412.dll
+Memory=Ram,0,0x80000000,0x1000000
+Memory=NVRAM,0,0x9F000000,0x40000
+Memory=boot,1,0x9c000000,0x20000
+Memory=Plat,1,0x9c020000,0xfA0000
+Memory=test,1,0x9cfC0000,0x40000
+Programram=0x80200000
+//KernelAddr=0x0
+Protocol=EJTAG64
+ProbTrap=1
+Endian=Little
+IRLength=5
+DMA=No
+
+Test:
+Name=WRT54GS
+Memory=Ram,0,0x80000000,0x2000000
+Memory=CFE,1,0x9fc00000,0x40000
+Memory=KERNEL,1,0x9fc40000,0x400000
+Programram=0x80200000
+Endian=Little
+IRLength=8
+Protocol=EJTAG
+DMA=Yes
+ProbTrap=1

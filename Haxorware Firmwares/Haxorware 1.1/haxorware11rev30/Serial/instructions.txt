@@ -1,0 +1,16 @@
+Diagnostic cable instructions (requires noisy bootloader):
+
+  Set your computers ip to 192.168.100.10
+  Set up a TFTP server with haxorware11rev30.bin in its root
+  Connect to modem with hyperterminal or putty (with changed CR/LF to LF)
+  While modem is turning on press p (you should get a prompt)
+  If you do not get a prompt for pressing p, your modem does not have a noisy bootloader, and you will have to use JTAG
+  Set the Modem IP to 192.168.100.1
+  Leave everything else at their defaults (just press enter)
+  When you get at the bootloader menu press d
+  Enter 192.168.100.10 as TFTP IP
+  Enter haxorware11rev30.bin as filename
+  It should download (the dots indicate progress)
+  When asked what image to save to, answer 1
+  Answer y to the "Store uncompressed image" prompt
+  press b once you are back at the menu to boot the modem
